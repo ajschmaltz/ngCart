@@ -38,7 +38,7 @@ angular.module('ngCart', ['ngCart.directives'])
             };
         };
 
-        this.addItem = function (id, name, price, quantity, data) {
+        this.addItem = function (id, name, price, quantity, data, options = [], parent_id = false) {
 
             var inCart = this.getItemById(id);
 
@@ -46,8 +46,15 @@ angular.module('ngCart', ['ngCart.directives'])
                 //Update quantity of an item if it's already in the cart
                 inCart.setQuantity(quantity, false);
             } else {
-                var newItem = new ngCartItem(id, name, price, quantity, data);
-                this.$cart.items.push(newItem);
+                var newItem = new ngCartItem(id, name, price, quantity, data, options);
+                if (parent_id === false){
+                    this.$cart.items.push(newItem);
+                } else {
+                    // this references a parent
+                    parentItem = this.getItemById(id);
+                    parentItem.options.push(newItem);
+                }
+                
                 $rootScope.$broadcast('ngCart:itemAdded', newItem);
             }
 
