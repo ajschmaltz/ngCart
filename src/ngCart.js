@@ -39,6 +39,8 @@ angular.module('ngCart', ['ngCart.directives'])
         };
 
         this.addItem = function (id, name, price, quantity, data, parent_id = false) {
+            
+            alert('test');
 
             var inCart = this.getItemById(id);
 
